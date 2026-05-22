@@ -185,3 +185,44 @@ classDiagram
     Necesidad "*" -- "1" Subcategoria : requiere
     Necesidad "1" o-- "*" DonacionSegmentada : recibe
 ```
+
+
+## 3. Diagrama de Arquitectura (Logica/Componentes)
+
+`mermaid
+flowchart TD
+    UI[App / Main Consola] --> Fachada[Sistema DonaTrack]
+    Fachada --> Importador[Modulo Importador CSV]
+    Fachada --> ModDonaciones[Modulo Donaciones]
+    Fachada --> ModEntidades[Modulo Entidades]
+    
+    ModDonaciones --> Segmentador[Segmentador]
+    ModDonaciones --> Estados[Maquina de Estados]
+    ModDonaciones --> ModNotific[Modulo Notificaciones]
+    
+    Importador -.->|Lee| CSV[(Archivo donantes.csv)]
+    ModNotific -.->|Simula uso| ExtAPI((APIs Externas: Mail/SMS))
+`
+
+## 4. Diagrama General de Casos de Uso
+
+`mermaid
+flowchart LR
+    Admin((Administrador))
+    Don((Donante))
+    Ent((Entidad))
+    
+    UC1([Importar donantes CSV])
+    UC2([Registrar donacion general])
+    UC3([Segmentar donacion])
+    UC4([Registrar necesidad])
+    UC5([Asignar donacion])
+    UC6([Manejar logistica y estados])
+    
+    Admin --- UC1
+    Don --- UC2
+    UC2 -.->|include| UC3
+    Ent --- UC4
+    Admin --- UC5
+    Admin --- UC6
+`
