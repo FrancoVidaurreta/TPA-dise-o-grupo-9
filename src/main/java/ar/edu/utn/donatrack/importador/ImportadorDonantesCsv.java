@@ -15,8 +15,6 @@ import java.util.Map;
 
 public class ImportadorDonantesCsv {
 
-    
-    
     private Map<String, Donante> genteAnotada = new HashMap<>();
 
     public void importar(String filePath) {
@@ -24,16 +22,14 @@ public class ImportadorDonantesCsv {
             String linea;
             boolean esLaPrimera = true;
 
-
             while ((linea = br.readLine()) != null) {
                 if (esLaPrimera) {
                     esLaPrimera = false;
-                    continue; 
+                    continue;
                 }
 
                 String[] datos = linea.split(",");
-                
-                
+
                 if (datos.length < 6)
                     continue;
 
@@ -47,9 +43,9 @@ public class ImportadorDonantesCsv {
                 Donante donante = genteAnotada.get(email);
 
                 if (donante == null) {
-                    
+
                     if ("HUMANA".equalsIgnoreCase(tipoPersona)) {
-                        
+
                         String[] nombreCompleto = nombrecito.split(" ", 2);
                         String nombre = nombreCompleto[0];
                         String apellido = nombreCompleto.length > 1 ? nombreCompleto[1] : "";
@@ -62,10 +58,8 @@ public class ImportadorDonantesCsv {
                     if (donante != null) {
                         genteAnotada.put(email, donante);
                     }
-                } else {
-                    
-                    
                 }
+
             }
         } catch (IOException e) {
             System.err.println("Error al leer el archivo CSV: " + e.getMessage());
