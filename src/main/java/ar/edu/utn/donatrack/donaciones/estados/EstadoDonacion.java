@@ -7,6 +7,7 @@ public abstract class EstadoDonacion {
 
     public EstadoDonacion(DonacionSegmentada donacion) {
         this.donacion = donacion;
+
     }
 
     public void asignar() {
@@ -27,6 +28,7 @@ public abstract class EstadoDonacion {
 
     public void fallarEntrega(String justificacion) {
         throw new IllegalStateException("Transición no válida desde este estado.");
+
     }
 
     public void vencer() {

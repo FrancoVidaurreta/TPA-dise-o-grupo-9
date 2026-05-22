@@ -2,6 +2,7 @@ package ar.edu.utn.donatrack.entidades;
 
 import ar.edu.utn.donatrack.donantes.Representante;
 import java.util.ArrayList;
+
 import java.util.List;
 
 public class EntidadBeneficiaria {

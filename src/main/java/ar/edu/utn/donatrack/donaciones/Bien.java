@@ -4,30 +4,30 @@ import java.time.LocalDate;
 
 public class Bien {
     private String descripcion;
-    private String foto; // Opcional, puede ser un path
+    private String foto; 
     private Categoria categoria;
-    private Subcategoria subcategoria;
-    private Boolean esUsado; // true=Usado, false=Nuevo, null=No aplica
-    private LocalDate fechaVencimiento; // Opcional (para perecederos)
+    private Subcat subcat;
+    private Boolean esUsado; 
+    private LocalDate fechaVenc; 
     private double cantidad;
-    private String unidadMedida; // kg, unidades, etc.
+    private String unidadMedida; 
 
-    public Bien(String descripcion, Subcategoria subcategoria, double cantidad, String unidadMedida) {
+    public Bien(String descripcion, Subcat subcat, double cantidad, String unidadMedida) {
         this.descripcion = descripcion;
-        this.subcategoria = subcategoria;
-        this.categoria = subcategoria.getCategoria();
+        this.subcat = subcat;
+        this.categoria = subcat.getCategoria();
         this.cantidad = cantidad;
         this.unidadMedida = unidadMedida;
     }
 
-    // Setters para propiedades opcionales
+    
     public void setFoto(String foto) { this.foto = foto; }
     public void setEsUsado(Boolean esUsado) { this.esUsado = esUsado; }
-    public void setFechaVencimiento(LocalDate fechaVencimiento) { this.fechaVencimiento = fechaVencimiento; }
+    public void setFechaVencimiento(LocalDate fechaVenc) { this.fechaVenc = fechaVenc; }
 
-    // Getters
-    public Subcategoria getSubcategoria() { return subcategoria; }
+    
+    public Subcat getSubcat() { return subcat; }
     public Boolean getEsUsado() { return esUsado; }
-    public LocalDate getFechaVencimiento() { return fechaVencimiento; }
+    public LocalDate getFechaVencimiento() { return fechaVenc; }
     public double getCantidad() { return cantidad; }
 }

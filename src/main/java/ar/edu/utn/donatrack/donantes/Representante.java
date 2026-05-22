@@ -7,16 +7,17 @@ import java.util.List;
 public class Representante {
     private String nombre;
     private String apellido;
-    private List<MedioDeContacto> mediosDeContacto;
+    private List<MedioDeContacto> formitasDeContacto;
 
     public Representante(String nombre, String apellido) {
         this.nombre = nombre;
+
         this.apellido = apellido;
-        this.mediosDeContacto = new ArrayList<>();
+        this.formitasDeContacto = new ArrayList<>();
     }
 
     public void agregarMedioDeContacto(MedioDeContacto medio) {
-        this.mediosDeContacto.add(medio);
+        this.formitasDeContacto.add(medio);
     }
 
     public String getNombre() { return nombre; }

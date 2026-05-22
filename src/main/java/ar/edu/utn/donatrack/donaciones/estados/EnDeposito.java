@@ -5,6 +5,7 @@ import ar.edu.utn.donatrack.donaciones.DonacionSegmentada;
 public class EnDeposito extends EstadoDonacion {
     public EnDeposito(DonacionSegmentada donacion) {
         super(donacion);
+
     }
 
     @Override

@@ -5,34 +5,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Donante {
-    protected List<MedioDeContacto> mediosDeContacto;
-    protected MedioDeContacto medioDeContactoPredeterminado;
+    protected List<MedioDeContacto> formitasDeContacto;
+    protected MedioDeContacto contactoFav;
 
     public Donante() {
-        this.mediosDeContacto = new ArrayList<>();
+        this.formitasDeContacto = new ArrayList<>();
     }
 
     public void agregarMedioDeContacto(MedioDeContacto medio) {
-        this.mediosDeContacto.add(medio);
-        if (this.medioDeContactoPredeterminado == null) {
-            this.medioDeContactoPredeterminado = medio;
+        this.formitasDeContacto.add(medio);
+        if (this.contactoFav == null) {
+            this.contactoFav = medio;
         }
     }
 
     public void setMedioDeContactoPredeterminado(MedioDeContacto medio) {
-        if (!mediosDeContacto.contains(medio)) {
-            mediosDeContacto.add(medio);
+        if (!formitasDeContacto.contains(medio)) {
+            formitasDeContacto.add(medio);
         }
-        this.medioDeContactoPredeterminado = medio;
+        this.contactoFav = medio;
     }
 
     public void notificar(String mensaje) {
-        if (medioDeContactoPredeterminado != null) {
-            medioDeContactoPredeterminado.notificar(mensaje);
+        if (contactoFav != null) {
+            contactoFav.notificar(mensaje);
+
         }
     }
 
     public List<MedioDeContacto> getMediosDeContacto() {
-        return mediosDeContacto;
+        return formitasDeContacto;
     }
 }

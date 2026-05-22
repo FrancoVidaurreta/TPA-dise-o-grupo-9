@@ -2,6 +2,7 @@ package ar.edu.utn.donatrack.donaciones;
 
 import ar.edu.utn.donatrack.donantes.Donante;
 import java.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,7 @@ public class DonacionGeneral {
     private LocalDate fechaRegistro;
     private String descripcionGeneral;
     private List<Bien> bienes;
+
 
     public DonacionGeneral(Donante donante, String descripcionGeneral) {
         this.donante = donante;

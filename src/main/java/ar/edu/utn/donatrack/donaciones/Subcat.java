@@ -1,10 +1,11 @@
 package ar.edu.utn.donatrack.donaciones;
 
-public class Subcategoria {
+public class Subcat {
     private String nombre;
+
     private Categoria categoria;
 
-    public Subcategoria(String nombre, Categoria categoria) {
+    public Subcat(String nombre, Categoria categoria) {
         this.nombre = nombre;
         this.categoria = categoria;
     }

@@ -1,26 +1,27 @@
 package ar.edu.utn.donatrack.entidades;
 
-import ar.edu.utn.donatrack.donaciones.Subcategoria;
+import ar.edu.utn.donatrack.donaciones.Subcat;
 import ar.edu.utn.donatrack.donaciones.DonacionSegmentada;
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Necesidad {
-    protected Subcategoria subcategoria;
+    protected Subcat subcat;
     protected String descripcion;
-    protected double cantidadObjetivo;
-    protected List<DonacionSegmentada> donacionesRecibidas;
+    protected double cantDeseada;
+    protected List<DonacionSegmentada> donacionesQueLlegaron;
 
-    public Necesidad(Subcategoria subcategoria, String descripcion, double cantidadObjetivo) {
-        this.subcategoria = subcategoria;
+    public Necesidad(Subcat subcat, String descripcion, double cantDeseada) {
+        this.subcat = subcat;
         this.descripcion = descripcion;
-        this.cantidadObjetivo = cantidadObjetivo;
-        this.donacionesRecibidas = new ArrayList<>();
+
+        this.cantDeseada = cantDeseada;
+        this.donacionesQueLlegaron = new ArrayList<>();
     }
 
     public void recibirDonacion(DonacionSegmentada donacion) {
-        if (donacion.getSubcategoria().equals(this.subcategoria)) {
-            this.donacionesRecibidas.add(donacion);
+        if (donacion.getSubcat().equals(this.subcat)) {
+            this.donacionesQueLlegaron.add(donacion);
         } else {
             throw new IllegalArgumentException("La donación no corresponde a la subcategoría de la necesidad.");
         }
@@ -29,7 +30,7 @@ public abstract class Necesidad {
     public abstract boolean estaSatisfecha();
 
     protected double getCantidadRecibida() {
-        return donacionesRecibidas.stream()
+        return donacionesQueLlegaron.stream()
                 .mapToDouble(DonacionSegmentada::getTotalCantidad)
                 .sum();
     }

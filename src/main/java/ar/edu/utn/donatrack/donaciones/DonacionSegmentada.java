@@ -9,17 +9,19 @@ import java.util.List;
 
 public class DonacionSegmentada {
     private Donante donante;
-    private Subcategoria subcategoria;
+
+    private Subcat subcat;
     private Boolean esUsado;
-    private LocalDate fechaVencimiento;
+    private LocalDate fechaVenc;
     private List<Bien> bienes;
     private EstadoDonacion estado;
 
-    public DonacionSegmentada(Donante donante, Subcategoria subcategoria, Boolean esUsado, LocalDate fechaVencimiento) {
+    public DonacionSegmentada(Donante donante, Subcat subcat, Boolean esUsado, LocalDate fechaVenc) {
         this.donante = donante;
-        this.subcategoria = subcategoria;
+        this.subcat = subcat;
         this.esUsado = esUsado;
-        this.fechaVencimiento = fechaVencimiento;
+
+        this.fechaVenc = fechaVenc;
         this.bienes = new ArrayList<>();
         this.estado = new EnDeposito(this);
     }
@@ -28,7 +30,7 @@ public class DonacionSegmentada {
         this.bienes.add(bien);
     }
 
-    // Patrón State
+    
     public void cambiarEstado(EstadoDonacion nuevoEstado) {
         this.estado = nuevoEstado;
     }
@@ -40,10 +42,10 @@ public class DonacionSegmentada {
     public void fallarEntrega(String justificacion) { estado.fallarEntrega(justificacion); }
     public void vencer() { estado.vencer(); }
 
-    // Getters para segmentación
-    public Subcategoria getSubcategoria() { return subcategoria; }
+    
+    public Subcat getSubcat() { return subcat; }
     public Boolean getEsUsado() { return esUsado; }
-    public LocalDate getFechaVencimiento() { return fechaVencimiento; }
+    public LocalDate getFechaVencimiento() { return fechaVenc; }
     public double getTotalCantidad() {
         return bienes.stream().mapToDouble(Bien::getCantidad).sum();
     }

@@ -7,18 +7,19 @@ import java.util.Map;
 import java.util.Objects;
 import java.time.LocalDate;
 
+
 public class SegmentadorDonaciones {
 
-    // Clase auxiliar para agrupar bienes por los 3 criterios
+    
     private static class ClaveAgrupacion {
-        Subcategoria subcategoria;
+        Subcat subcat;
         Boolean esUsado;
-        LocalDate fechaVencimiento;
+        LocalDate fechaVenc;
 
-        public ClaveAgrupacion(Subcategoria subcategoria, Boolean esUsado, LocalDate fechaVencimiento) {
-            this.subcategoria = subcategoria;
+        public ClaveAgrupacion(Subcat subcat, Boolean esUsado, LocalDate fechaVenc) {
+            this.subcat = subcat;
             this.esUsado = esUsado;
-            this.fechaVencimiento = fechaVencimiento;
+            this.fechaVenc = fechaVenc;
         }
 
         @Override
@@ -26,39 +27,40 @@ public class SegmentadorDonaciones {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             ClaveAgrupacion that = (ClaveAgrupacion) o;
-            return Objects.equals(subcategoria, that.subcategoria) &&
+            return Objects.equals(subcat, that.subcat) &&
                    Objects.equals(esUsado, that.esUsado) &&
-                   Objects.equals(fechaVencimiento, that.fechaVencimiento);
+                   Objects.equals(fechaVenc, that.fechaVenc);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(subcategoria, esUsado, fechaVencimiento);
+            return Objects.hash(subcat, esUsado, fechaVenc);
         }
     }
 
-    public List<DonacionSegmentada> segmentar(DonacionGeneral donacionGeneral) {
-        Map<ClaveAgrupacion, DonacionSegmentada> segmentadas = new HashMap<>();
+    public List<DonacionSegmentada> segmentar(DonacionGeneral laDonacion) {
+        Map<ClaveAgrupacion, DonacionSegmentada> lasPartitas = new HashMap<>();
 
-        for (Bien bien : donacionGeneral.getBienes()) {
+
+        for (Bien bien : laDonacion.getBienes()) {
             ClaveAgrupacion clave = new ClaveAgrupacion(
-                    bien.getSubcategoria(),
+                    bien.getSubcat(),
                     bien.getEsUsado(),
                     bien.getFechaVencimiento()
             );
 
-            DonacionSegmentada segmentada = segmentadas.computeIfAbsent(clave, 
+            DonacionSegmentada segmentada = lasPartitas.computeIfAbsent(clave, 
                 k -> new DonacionSegmentada(
-                    donacionGeneral.getDonante(), 
-                    k.subcategoria, 
+                    laDonacion.getDonante(), 
+                    k.subcat, 
                     k.esUsado, 
-                    k.fechaVencimiento
+                    k.fechaVenc
                 )
             );
             
             segmentada.agregarBien(bien);
         }
 
-        return new ArrayList<>(segmentadas.values());
+        return new ArrayList<>(lasPartitas.values());
     }
 }

@@ -7,5 +7,5 @@ public class Entregada extends EstadoDonacion {
         super(donacion);
     }
 
-    // Estado final, no transiciona a otros.
+    
 }

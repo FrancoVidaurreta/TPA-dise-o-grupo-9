@@ -1,15 +1,15 @@
 package ar.edu.utn.donatrack.entidades;
 
-import ar.edu.utn.donatrack.donaciones.Subcategoria;
+import ar.edu.utn.donatrack.donaciones.Subcat;
 
 public class NecesidadExtraordinaria extends Necesidad {
 
-    public NecesidadExtraordinaria(Subcategoria subcategoria, String descripcion, double cantidadObjetivo) {
-        super(subcategoria, descripcion, cantidadObjetivo);
+    public NecesidadExtraordinaria(Subcat subcat, String descripcion, double cantDeseada) {
+        super(subcat, descripcion, cantDeseada);
     }
 
     @Override
     public boolean estaSatisfecha() {
-        return getCantidadRecibida() >= cantidadObjetivo;
+        return getCantidadRecibida() >= cantDeseada;
     }
 }

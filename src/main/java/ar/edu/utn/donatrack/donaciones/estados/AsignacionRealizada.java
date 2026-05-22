@@ -15,5 +15,6 @@ public class AsignacionRealizada extends EstadoDonacion {
     @Override
     public void vencer() {
         this.donacion.cambiarEstado(new Vencida(this.donacion));
+
     }
 }

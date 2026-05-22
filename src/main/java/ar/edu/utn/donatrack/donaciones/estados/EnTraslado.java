@@ -13,6 +13,7 @@ public class EnTraslado extends EstadoDonacion {
     }
 
     @Override
+
     public void fallarEntrega(String justificacion) {
         this.donacion.cambiarEstado(new EntregaFallida(this.donacion, justificacion));
     }
