@@ -1,23 +1,18 @@
-# Entregables: DonaTrack (Entrega 1)
 
-> [!NOTE]
-> Este documento contiene los diagramas y justificaciones de diseño solicitados en el enunciado de la Entrega 1.
+Justificaciones de Diseño
 
-## 1. Justificaciones de Diseño
+Polimorfismo en donantes armamos una clase abstracta Donante y de ahi heredan PersonaHumana y PersonaJuridica. La idea de esto es no llenarnos de if o casteos raros cada vez que entra alguien a donar, el sistema los agarra a todos como "Donante" y listo.
 
-- **Polimorfismo en donantes:** armamos una clase abstracta Donante y de ahi heredan PersonaHumana y PersonaJuridica. La idea de esto es no llenarnos de if o casteos raros cada vez que entra alguien a donar, el sistema los agarra a todos como "Donante" y listo.
 
-- **Patron Strategy para los avisos:** como teniamos q mandar msjs por mail, wpp o sms, y seguro despues nos piden agregar telegram o algo de eso, armamos una interfaz Notificador. la clase MedioDeContacto tiene uno de estos y le delega el trabajo, asi q cumple re bien el principio open closed. 
+El tema de dividir las donaciones: la caja grande que trae la gente no se toca, entra como DonacionGeneral. despues hicimos una clase SegmentadorDonaciones que agarra eso y lo rompe en pedacitos (DonacionSegmentada) agrupando por subcat, si es nuevo/usado y vencimiento. 
 
-- **El tema de dividir las donaciones:** la caja grande que trae la gente no se toca, entra como DonacionGeneral. despues hicimos una clase SegmentadorDonaciones que agarra eso y lo rompe en pedacitos (DonacionSegmentada) agrupando por subcat, si es nuevo/usado y vencimiento. 
+State para los estados logisticos: el viaje de las donaciones (deposito -> asignado -> viaje -> entregado) no se podia hacer con un simple string porque teniamos q atajar errores si alguien queria saltar de deposito directo a entregado. Usamos el patron state donde cada estado es una clase q solo te deja hacer las acciones validas. Chau ifs gigantes.
 
-- **State para los estados logisticos:** el viaje de las donaciones (deposito -> asignado -> viaje -> entregado) no se podia hacer con un simple string porque teniamos q atajar errores si alguien queria saltar de deposito directo a entregado. Usamos el patron state donde cada estado es una clase q solo te deja hacer las acciones validas. Chau ifs gigantes.
+Polimorfismo para las Necesidades: las entidades pueden tener necesidades recurrentes o extraordinarias. como el calculo para saber si estan "satisfechas" es re distinto, pusimos un metodo abstracto estaSatisfecha() en la clase padre Necesidad. Cada hija hace la suya gracias a la ligadura dinamica (late binding).
 
-- **Polimorfismo para las Necesidades:** las entidades pueden tener necesidades recurrentes o extraordinarias. como el calculo para saber si estan "satisfechas" es re distinto, pusimos un metodo abstracto estaSatisfecha() en la clase padre Necesidad. Cada hija hace la suya gracias a la ligadura dinamica (late binding).
+Diagrama de Clases (Modelo de Dominio)
 
-## 2. Diagrama de Clases (Modelo de Dominio)
 
-```mermaid
 classDiagram
 
     %% Donantes
@@ -188,12 +183,12 @@ classDiagram
     Necesidad <|-- NecesidadRecurrente
     Necesidad "*" -- "1" Subcategoria : requiere
     Necesidad "1" o-- "*" DonacionSegmentada : recibe
-```
 
 
-## 3. Diagrama de Arquitectura (Logica/Componentes)
 
-`mermaid
+Diagrama de Arquitectura (Logica/Componentes)
+
+
 flowchart TD
     UI[App / Main Consola] --> Fachada[Sistema DonaTrack]
     Fachada --> Importador[Modulo Importador CSV]
@@ -206,11 +201,11 @@ flowchart TD
     
     Importador -.->|Lee| CSV[(Archivo donantes.csv)]
     ModNotific -.->|Simula uso| ExtAPI((APIs Externas: Mail/SMS))
-`
 
-## 4. Diagrama General de Casos de Uso
 
-`mermaid
+Diagrama General de Casos de Uso
+
+
 flowchart LR
     Admin((Administrador))
     Don((Donante))
@@ -229,4 +224,4 @@ flowchart LR
     Ent --- UC4
     Admin --- UC5
     Admin --- UC6
-`
+
