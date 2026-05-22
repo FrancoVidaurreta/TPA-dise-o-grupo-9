@@ -5,11 +5,15 @@
 
 ## 1. Justificaciones de Diseño
 
-*   **Polimorfismo en Donantes:** Se implementó una clase base abstracta `Donante` con las especializaciones `PersonaHumana` y `PersonaJuridica`. Esto nos permite tratar a todos los donantes de manera uniforme (por ejemplo, al registrar una donación) sin necesidad de usar lógicas condicionales o casteos excesivos.
-*   **Patrón Strategy (Medios de Contacto y Notificaciones):** Dado que se requiere enviar notificaciones por distintos medios (Mail, SMS, WhatsApp) y que esto interactuará con servicios externos en el futuro, se encapsuló la lógica de envío detrás de la interfaz `Notificador`. La clase `MedioDeContacto` actúa como contexto y delega el envío a la estrategia concreta inyectada, asegurando alta cohesión y bajo acoplamiento (Principio Open/Closed de SOLID: es fácil agregar un `NotificadorTelegram` en el futuro sin tocar el resto del código).
-*   **Segmentación de Donaciones:** Para evitar la modificación de la donación original, el sistema recibe una `DonacionGeneral` con la totalidad de los bienes. El componente `SegmentadorDonaciones` es el responsable de aplicar la lógica de negocio para dividir esta carga en múltiples instancias de `DonacionSegmentada`, agrupando los bienes obligatoriamente por `Subcategoria`, `esUsado` y `fechaVencimiento`. 
-*   **Patrón State (Estados de la Donación):** El ciclo de vida de una donación segmentada (`EnDeposito`, `AsignacionRealizada`, etc.) tiene reglas estrictas sobre qué transiciones son válidas (ej. no se puede confirmar entrega si no está en traslado). Usando el patrón State, cada estado es una clase que hereda de `EstadoDonacion` y define únicamente las transiciones permitidas, delegando el cambio de estado al contexto (`DonacionSegmentada`). Esto elimina las complejas estructuras `if/switch` y facilita agregar nuevos estados si el proceso logístico muta.
-*   **Polimorfismo en Necesidades:** La forma en la que una `Necesidad` determina si está "satisfecha" difiere diametralmente entre una recurrente y una extraordinaria. Se implementó una clase abstracta `Necesidad` con el método abstracto `estaSatisfecha()`, el cual es resuelto por `NecesidadRecurrente` y `NecesidadExtraordinaria` utilizando "Late Binding" (ligadura dinámica).
+- **Polimorfismo en donantes:** armamos una clase abstracta Donante y de ahi heredan PersonaHumana y PersonaJuridica. La idea de esto es no llenarnos de if o casteos raros cada vez que entra alguien a donar, el sistema los agarra a todos como "Donante" y listo.
+
+- **Patron Strategy para los avisos:** como teniamos q mandar msjs por mail, wpp o sms, y seguro despues nos piden agregar telegram o algo de eso, armamos una interfaz Notificador. la clase MedioDeContacto tiene uno de estos y le delega el trabajo, asi q cumple re bien el principio open closed. 
+
+- **El tema de dividir las donaciones:** la caja grande que trae la gente no se toca, entra como DonacionGeneral. despues hicimos una clase SegmentadorDonaciones que agarra eso y lo rompe en pedacitos (DonacionSegmentada) agrupando por subcat, si es nuevo/usado y vencimiento. 
+
+- **State para los estados logisticos:** el viaje de las donaciones (deposito -> asignado -> viaje -> entregado) no se podia hacer con un simple string porque teniamos q atajar errores si alguien queria saltar de deposito directo a entregado. Usamos el patron state donde cada estado es una clase q solo te deja hacer las acciones validas. Chau ifs gigantes.
+
+- **Polimorfismo para las Necesidades:** las entidades pueden tener necesidades recurrentes o extraordinarias. como el calculo para saber si estan "satisfechas" es re distinto, pusimos un metodo abstracto estaSatisfecha() en la clase padre Necesidad. Cada hija hace la suya gracias a la ligadura dinamica (late binding).
 
 ## 2. Diagrama de Clases (Modelo de Dominio)
 
