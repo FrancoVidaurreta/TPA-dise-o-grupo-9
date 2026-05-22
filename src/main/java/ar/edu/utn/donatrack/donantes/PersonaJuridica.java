@@ -10,7 +10,8 @@ public class PersonaJuridica extends Donante {
     private String cuit;
     private List<Representante> representantes;
 
-    public PersonaJuridica(String razonSocial, TipoOrganizacion tipo, String rubro, String cuit, String correoElectronico) {
+    public PersonaJuridica(String razonSocial, TipoOrganizacion tipo, String rubro, String cuit,
+            String correoElectronico) {
         super();
         this.razonSocial = razonSocial;
         this.tipo = tipo;
@@ -18,9 +19,8 @@ public class PersonaJuridica extends Donante {
         this.cuit = cuit;
         this.representantes = new ArrayList<>();
 
-        
-        ar.edu.utn.donatrack.notificaciones.MedioDeContacto medioEmail = 
-            new ar.edu.utn.donatrack.notificaciones.MedioDeContacto(correoElectronico, new ar.edu.utn.donatrack.notificaciones.NotificadorMail());
+        ar.edu.utn.donatrack.notificaciones.MedioDeContacto medioEmail = new ar.edu.utn.donatrack.notificaciones.MedioDeContacto(
+                correoElectronico, new ar.edu.utn.donatrack.notificaciones.NotificadorMail());
         this.agregarMedioDeContacto(medioEmail);
     }
 
@@ -28,8 +28,16 @@ public class PersonaJuridica extends Donante {
         this.representantes.add(representante);
     }
 
-    
-    public String getRazonSocial() { return razonSocial; }
-    public String getCuit() { return cuit; }
-    public List<Representante> getRepresentantes() { return representantes; }
+    // Getters
+    public String getRazonSocial() {
+        return razonSocial;
+    }
+
+    public String getCuit() {
+        return cuit;
+    }
+
+    public List<Representante> getRepresentantes() {
+        return representantes;
+    }
 }
